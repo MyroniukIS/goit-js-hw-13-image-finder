@@ -23,10 +23,12 @@ export default function fetchImages(searchQuery) {
                 return response.json();
                 }
                 if (response.status === 404) {
+                    refs.mainInput.disabled = true;
                  error({
             text: "Please enter valid query!",
             stack: myStack
                  });
+                    refs.mainInput.disabled = false;
                     refs.mainInput.value = '';
             }
             })

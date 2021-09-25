@@ -46,10 +46,13 @@ refs.button.addEventListener('click', () => {
      
      
      if (value.length < 1) {
+         refs.mainInput.disabled = true;
          error({
              text: "Please enter valid query!",
              stack: myStack
-            });
+         });
+         refs.mainInput.disabled = false;
+         refs.mainInput.value = '';
             return;
         }   
      refs.gallery.innerHTML = '';
@@ -78,10 +81,13 @@ refs.button.addEventListener('click', () => {
 function createMarkup(array) {
     const { hits } = array;
     if (hits.length === 0) {
+        refs.mainInput.disabled = true;
             error({
              text: "Please enter valid query!",
              stack: myStack
             });
+        refs.mainInput.disabled = false;
+        refs.mainInput.value = '';
             return;
         }   
     refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));
