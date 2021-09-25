@@ -27,7 +27,7 @@ export default function fetchImages(searchQuery) {
             text: "Please enter valid query!",
             stack: myStack
                  });
-                    // refs.mainInput.value = '';
+                    refs.mainInput.value = '';
             }
             })
     }

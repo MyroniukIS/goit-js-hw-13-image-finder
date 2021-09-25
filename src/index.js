@@ -18,21 +18,44 @@ const myStack = new Stack({
     overlayClose: true
 });
 
-
 const API_key = '23557940-e0a9cdf2e70b178fd7f1f33b8';
-const page = 1;
-
-refs.mainInput.addEventListener('input', debounce(onEnterInput, 1000));
-
-function onEnterInput(e) {
-    const value = e.target.value.trim();
+ let page = 1;
+let value = ''
+ console.log(value)
+ 
+refs.mainInput.addEventListener('input', debounce(onEnterInput, 1500));
+ 
+refs.button.addEventListener('click', () => {
     const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
+    console.log(value)
+    fetchImages(searchQuery).then(array => {
+            console.log(array)
+        createMarkup(array);
+        onSmoothScroll();
+            page += 1;
+            console.log("on click", page)
+        }).catch(error => {
+            console.log(error);
+        });
+});
 
-    if (value.length < 1) {
-        return;
-    }
-    refs.gallery.innerHTML = '';
-    fetchImages(searchQuery)
+ function onEnterInput(e) {
+     value = e.target.value.trim();
+     console.log(value)
+     const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
+     
+     
+     if (value.length < 1) {
+         error({
+             text: "Please enter valid query!",
+             stack: myStack
+            });
+            return;
+        }   
+     refs.gallery.innerHTML = '';
+     page = 1;
+     console.log(page)
+        fetchImages(searchQuery)
         .then(data => {
             if (!data) {
                 return;
@@ -40,17 +63,25 @@ function onEnterInput(e) {
             return data;
         })
         .then(array => {
-            console.log(array.hits)
-            refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(array));
+            console.log(array)
+            createMarkup(array);
+            page += 1;
+            console.log("on input", page)
+            
         })
         .catch(error => {
             console.log(error);
         });
 }
 
+function createMarkup(array) {
+    const { hits } = array;
+    refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));
+}
 
-
-
-
-
-
+function onSmoothScroll() {
+    refs.gallery.scrollIntoView({
+    behavior: 'smooth',
+    block: 'end',
+});
+}
