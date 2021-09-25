@@ -5,6 +5,7 @@ import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 
 import refs from './refs.js'
+import throwErrorInvalid from './index.js'
 
 const myStack = new Stack({
     dir1: 'up',
@@ -14,7 +15,6 @@ const myStack = new Stack({
     overlayClose: true
 });
 
-// объект отвечающий за логику HTTP-запросов к API
 export default function fetchImages(searchQuery) {
     if (searchQuery) {
         return fetch(`https://pixabay.com/api/${searchQuery}`)
@@ -23,13 +23,7 @@ export default function fetchImages(searchQuery) {
                 return response.json();
                 }
                 if (response.status === 404) {
-                    refs.mainInput.disabled = true;
-                 error({
-            text: "Please enter valid query!",
-            stack: myStack
-                 });
-                    refs.mainInput.disabled = false;
-                    refs.mainInput.value = '';
+                   throwErrorInvalid();
             }
             })
     }
