@@ -64,6 +64,7 @@ refs.button.addEventListener('click', () => {
         })
         .then(array => {
             console.log(array)
+            
             createMarkup(array);
             page += 1;
             console.log("on input", page)
@@ -76,6 +77,13 @@ refs.button.addEventListener('click', () => {
 
 function createMarkup(array) {
     const { hits } = array;
+    if (hits.length === 0) {
+            error({
+             text: "Please enter valid query!",
+             stack: myStack
+            });
+            return;
+        }   
     refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));
 }
 

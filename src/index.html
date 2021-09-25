@@ -14,16 +14,19 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
   <body>
-    <!-- форма пошуку -->
-    <form class="search-form" id="search-form">
-      <input class="main-input" type="text" name="query" autocomplete="off" placeholder="Search images..." />
-    </form>
-
-    <ul class="gallery">
-      <!-- Список <li> с карточками изображений -->
-    </ul>
-
-    <button class="btn-load-more" type="button"  data-action="load">Load more</button>
+    <div class="wrapper">
+      <!-- форма пошуку -->
+      <form class="search-form" id="search-form">
+        <input class="main-input" type="text" name="query" autocomplete="off" placeholder="Search images..." />
+      </form>
+      
+      <ul class="gallery">
+        <!-- Список <li> с карточками изображений -->
+      </ul>
+      
+      <button class="btn-load-more" type="button" data-action="load">Load more</button>
+    </div>
+    
 
     <script src="./index.js"></script>
   </body>
