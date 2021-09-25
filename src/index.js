@@ -22,6 +22,7 @@ const API_key = '23557940-e0a9cdf2e70b178fd7f1f33b8';
 let page = 1;
 let value = ''
 //  console.log(value) 
+refs.button.disabled = true;
 refs.mainInput.addEventListener('input', debounce(onEnterInput, 1500));
 refs.button.addEventListener('click', () => {
     const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
@@ -29,7 +30,7 @@ refs.button.addEventListener('click', () => {
     fetchAndRenderImages(searchQuery);
 });
 
- function onEnterInput(e) {
+function onEnterInput(e) {
      value = e.target.value.trim();
     //  console.log(value)
      const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
@@ -40,7 +41,7 @@ refs.button.addEventListener('click', () => {
      refs.gallery.innerHTML = '';
      page = 1;
     //  console.log(page)
-     fetchAndRenderImages(searchQuery);
+    fetchAndRenderImages(searchQuery);
  }
 
  function fetchAndRenderImages(searchQuery) {
@@ -67,8 +68,9 @@ function createMarkup(array) {
     if (hits.length === 0) {
         throwErrorInvalid();
             return;
-        }   
+    }
     refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));
+    refs.button.disabled = false;
 }
 
 function onSmoothScroll() {
@@ -84,6 +86,6 @@ export function throwErrorInvalid() {
              text: "Please enter valid query!",
              stack: myStack
             });
-        refs.mainInput.disabled = false;
+    refs.mainInput.disabled = false;
         refs.mainInput.value = '';
  }
