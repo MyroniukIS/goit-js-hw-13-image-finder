@@ -25,15 +25,16 @@ let value = ''
 refs.button.disabled = true;
 refs.mainInput.addEventListener('input', debounce(onEnterInput, 1500));
 refs.button.addEventListener('click', () => {
-    const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
     // console.log(value)
+    page += 1;
+    const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
     fetchAndRenderImages(searchQuery);
 });
 
 function onEnterInput(e) {
-     value = e.target.value.trim();
+    value = e.target.value.trim();
     //  console.log(value)
-     const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
+    const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
      if (value.length < 1) {
          throwErrorInvalid();
             return;
@@ -42,6 +43,7 @@ function onEnterInput(e) {
      page = 1;
     //  console.log(page)
     fetchAndRenderImages(searchQuery);
+    return searchQuery;
  }
 
  function fetchAndRenderImages(searchQuery) {
@@ -56,7 +58,6 @@ function onEnterInput(e) {
             // console.log(array)
         createMarkup(array);
         onSmoothScroll();
-            page += 1;
             // console.log("on click", page)
         }).catch(error => {
             console.log(error);
