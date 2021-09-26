@@ -21,11 +21,9 @@ const myStack = new Stack({
 const API_key = '23557940-e0a9cdf2e70b178fd7f1f33b8';
 let page = 1;
 let value = ''
-//  console.log(value) 
 refs.button.classList.add('hide');
 refs.mainInput.addEventListener('input', debounce(onEnterInput, 1500));
 refs.button.addEventListener('click', () => {
-    // console.log(value)
     page += 1;
     const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
     fetchAndRenderImages(searchQuery);
@@ -33,7 +31,6 @@ refs.button.addEventListener('click', () => {
 
 function onEnterInput(e) {
     value = e.target.value.trim();
-    //  console.log(value)
     page = 1;
     const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
      if (value.length < 1) {
@@ -41,9 +38,7 @@ function onEnterInput(e) {
             return;
         }   
      refs.gallery.innerHTML = '';
-    //  console.log(page)
     fetchAndRenderImages(searchQuery);
-    //показати кнопку
     refs.button.classList.remove('hide');
  }
 
@@ -56,10 +51,8 @@ function onEnterInput(e) {
             return data;
         })
         .then(array => {
-            // console.log(array)
         createMarkup(array);
         onSmoothScroll();
-            // console.log("on click", page)
         }).catch(error => {
             console.log(error);
         });
