@@ -5,7 +5,7 @@ import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 
 import debounce from 'lodash/debounce';
-import fetchImages from './apiService.js'
+import objFetchImg from './apiService.js'
 import refs from './refs.js'
 import { template } from 'handlebars';
 import cardMarkup from './templates/cardMarkup.hbs'
@@ -18,56 +18,50 @@ const myStack = new Stack({
     overlayClose: true
 });
 //========================================================
-const API_key = '23557940-e0a9cdf2e70b178fd7f1f33b8';
-let page = 1;
-let value = ''
+
 refs.button.classList.add('hide');
 refs.mainInput.addEventListener('input', debounce(onEnterInput, 1500));
 refs.button.addEventListener('click', () => {
-    page += 1;
-    const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
-    fetchAndRenderImages(searchQuery);
+    objFetchImg.fetchImages()
 });
 
 function onEnterInput(e) {
-    value = e.target.value.trim();
-    page = 1;
-    const searchQuery = `?image_type=photo&orientation=horizontal&q=${value}&page=${page}&per_page=12&key=${API_key}`;
-     if (value.length < 1) {
+    let value = e.target.value.trim();
+    if (value.length < 1) {
          throwErrorInvalid();
             return;
         }   
-     refs.gallery.innerHTML = '';
-    fetchAndRenderImages(searchQuery);
+    objFetchImg.query(value);
+    refs.gallery.innerHTML = '';
+    objFetchImg.fetchImages();
     refs.button.classList.remove('hide');
  }
 
- function fetchAndRenderImages(searchQuery) {
-    fetchImages(searchQuery)
-        .then(data => {
-            if (!data) {
-                return;
-            }
-            return data;
-        })
-        .then(array => {
-        createMarkup(array);
-        onSmoothScroll();
-        }).catch(error => {
-            console.log(error);
-        });
-}
+//  function fetchAndRenderImages(searchQuery) {
+//     fetchImages(searchQuery)
+//         .then(data => {
+//             // if (!data) {
+//             //     return;
+//             // }
+//             // return data;
+//         })
+//         .then(array => {
+//         // createMarkup(array);
+//         // onSmoothScroll();
+//         }).catch(error => {
+//             console.log(error);
+//         });
+// }
 
-function createMarkup(array) {
-    const { hits } = array;
-    if (hits.length === 0) {
+export function createMarkup(hits) {
+        if (hits.length === 0) {
         throwErrorInvalid();
             return;
     }
     refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));
 }
 
-function onSmoothScroll() {
+export function onSmoothScroll() {
     refs.gallery.scrollIntoView({
     behavior: 'smooth',
     block: 'end',
