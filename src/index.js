@@ -17,7 +17,9 @@ const myStack = new Stack({
     modal: true,
     overlayClose: true
 });
+
 //========================================================
+
 const API_key = '23557940-e0a9cdf2e70b178fd7f1f33b8';
 const objFetchImg = {
     searchQuery: '',
@@ -59,6 +61,7 @@ const objFetchImg = {
         this.searchQuery = value;
     },
 };
+
 //========================================================
 
 refs.button.classList.add('hide');
@@ -68,36 +71,20 @@ refs.button.addEventListener('click', () => {
 });
 
 function onEnterInput(e) {
-    let value = e.target.value.trim();
-    if (value.length < 1) {
+    objFetchImg.query = e.target.value.trim();
+    if (objFetchImg.query.length < 1) {
          throwErrorInvalid();
             return;
         }   
-    objFetchImg.query(value);
     refs.gallery.innerHTML = '';
     objFetchImg.fetchImages();
     refs.button.classList.remove('hide');
  }
 
-//  function fetchAndRenderImages(searchQuery) {
-//     fetchImages(searchQuery)
-//         .then(data => {
-//             // if (!data) {
-//             //     return;
-//             // }
-//             // return data;
-//         })
-//         .then(array => {
-//         // createMarkup(array);
-//         // onSmoothScroll();
-//         }).catch(error => {
-//             console.log(error);
-//         });
-// }
-
 function createMarkup(hits) {
         if (hits.length === 0) {
-        throwErrorInvalid();
+            throwErrorInvalid();
+            // objFetchImg.dafaultPage();
             return;
     }
     refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));

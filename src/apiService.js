@@ -4,7 +4,7 @@ import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 
-import refs from './refs.js'
+// import refs from './refs.js'
 // import throwErrorInvalid from './index.js'
 // import createMarkup from './index.js'
 // import onSmoothScroll from './index.js'
@@ -16,21 +16,3 @@ const myStack = new Stack({
     modal: true,
     overlayClose: true
 });
-
-
-
-// export default function fetchImages(searchQuery) {
-
-//     if (searchQuery) {
-//         return fetch(`https://pixabay.com/api/${searchQuery}`)
-//             // .then(response => {
-//             //     if (response.ok) {
-//             //     return response.json();
-//             //     }
-//             //     if (response.status === 404) {
-//             //        throwErrorInvalid();
-//             // }
-//             // })
-//     }
-// }
-
