@@ -1,4 +1,5 @@
 // ===============================================
+//МАКАРОНИ (1й варіант домашки), але все працює
 //apiService.js
 // import refs from './refs.js'
 // import throwErrorInvalid from './index.js'

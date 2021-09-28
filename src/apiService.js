@@ -4,9 +4,9 @@ import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 defaultModules.set(PNotifyMobile, {});
 
-import throwErrorInvalid from './index.js'
-import createMarkup from './index.js'
-import onSmoothScroll from './index.js'
+import {throwErrorInvalid} from './index.js'
+import {createMarkup} from './index.js'
+import {onSmoothScroll} from './index.js'
 
 const myStack = new Stack({
     dir1: 'up',
