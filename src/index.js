@@ -6,8 +6,8 @@ defaultModules.set(PNotifyMobile, {});
 
 import { template } from 'handlebars';
 import debounce from 'lodash/debounce';
-import objFetchImg from './apiService.js'
-import refs from './refs.js'
+import objFetchImg from './js/apiService.js'
+import refs from './js/refs.js'
 import cardMarkup from './templates/cardMarkup.hbs'
 
 const myStack = new Stack({
@@ -18,14 +18,22 @@ const myStack = new Stack({
     overlayClose: true
 });
 
-
-
 //========================================================
 
 refs.button.classList.add('hide');
 refs.mainInput.addEventListener('input', debounce(onEnterInput, 1500));
 refs.button.addEventListener('click', () => {
-    objFetchImg.fetchImages();
+    objFetchImg.fetchImages()
+        .then(({ hits }) => {
+                if (!hits) {
+                return;
+                }
+                createMarkup(hits);
+                onSmoothScroll();
+                objFetchImg.incrPage();
+                return hits;
+            })
+            .catch(error => console.log(error));
 });
 
 function onEnterInput(e) {
@@ -36,10 +44,20 @@ function onEnterInput(e) {
             return;
         }   
     refs.gallery.innerHTML = '';
-    objFetchImg.fetchImages();
+    objFetchImg.fetchImages()
+        .then(({ hits }) => {
+                if (!hits) {
+                return;
+                }
+                createMarkup(hits);
+                onSmoothScroll();
+                objFetchImg.incrPage();
+                return hits;
+            })
+            .catch(error => console.log(error));
  }
 
-export function createMarkup(hits) {
+function createMarkup(hits) {
     if (hits.length === 0) {
             refs.button.classList.add('hide');
             throwErrorInvalid();
@@ -49,7 +67,7 @@ export function createMarkup(hits) {
     refs.gallery.insertAdjacentHTML('beforeend', cardMarkup(hits));
 }
 
-export function onSmoothScroll() {
+function onSmoothScroll() {
     refs.gallery.scrollIntoView({
     behavior: 'smooth',
     block: 'end',
